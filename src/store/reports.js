@@ -1,3 +1,6 @@
+import reportDataV1 from "../mocks/data/reportSeedsV1.json"
+// import reportDataV2 from "../mocks/data/reportSeedsV2.json"
+
 /** Action Type Constants: */
 export const LOAD_REPORTS = 'reports/LOAD_REPORTS';
 export const RECEIVE_REPORT = 'reports/RECEIVE_REPORT';
@@ -28,6 +31,37 @@ export const removeReport = (reportId) => ({
 /** Thunk Action Creators: */
 
 // Your code here
+
+export const getAllReportsThunk = () => async (dispatch) => {
+  const res = await fetch("/api/reports");
+  const reports = await res.json()
+  console.log(res)
+  console.log(reports)
+  await dispatch(loadReports(reports))
+}
+
+export const deleteReportThunk = (reportId) => async (dispatch) => {
+  const res = await fetch(`/api/reports/${reportId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: {message: "Successfully deleted"}
+  });
+
+  if (res.ok) {
+    // res.json({
+    //   message: "Successfully deleted"
+    // })
+    const reports = await res.json()
+    dispatch(removeReport(reportId))
+    return reports
+  } else {
+    res.json({
+      errors: {
+        message: "Unauthorized"
+      }
+    })
+  }
+}
 
 /** The reports reducer is complete and does not need to be modified */
 const reportsReducer = (state = {}, action) => {

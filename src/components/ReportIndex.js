@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import ReportIndexItem from './ReportIndexItem';
+import { getAllReportsThunk } from '../store/reports';
 
 const ReportIndex = () => {
-  const reports = []; // populate from Redux store
+  const reportsObj = useSelector((state) => state.reports)
+  console.log(reportsObj)
+  const reports = Object.values(reportsObj); // populate from Redux store
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllReportsThunk())
+  }, [dispatch])
 
   /* **DO NOT CHANGE THE RETURN VALUE** */
   return (
