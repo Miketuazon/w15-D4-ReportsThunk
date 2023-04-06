@@ -1,8 +1,20 @@
 import { Link, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getOneReportThunk } from '../store/reports';
+import { useEffect } from 'react';
 
 const ReportShow = () => {
+
+  const dispatch = useDispatch()
+
   const { reportId } = useParams();
-  const report = {}; // populate from Redux store
+  const report = useSelector(state => state.reports[reportId]) // populate from Redux store
+
+  console.log("reportsshow", report)
+
+  useEffect(() => {
+    dispatch(getOneReportThunk(reportId))
+  }, [dispatch])
 
   /* **DO NOT CHANGE THE RETURN VALUE** */
   return (

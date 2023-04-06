@@ -1,4 +1,4 @@
-import reportDataV1 from "../mocks/data/reportSeedsV1.json"
+//import reportDataV1 from "../mocks/data/reportSeedsV1.json"
 // import reportDataV2 from "../mocks/data/reportSeedsV2.json"
 
 /** Action Type Constants: */
@@ -35,7 +35,6 @@ export const removeReport = (reportId) => ({
 export const getAllReportsThunk = () => async (dispatch) => {
   const res = await fetch("/api/reports");
   const reports = await res.json()
-  console.log(res)
   console.log(reports)
   await dispatch(loadReports(reports))
 }
@@ -62,6 +61,14 @@ export const deleteReportThunk = (reportId) => async (dispatch) => {
     })
   }
 }
+
+export const getOneReportThunk = (reportId) => async (dispatch) => {
+  const res = await fetch(`/api/reports/${reportId}`)
+  const report = await res.json()
+  console.log("onereport", report)
+  await dispatch(receiveReport(report))
+}
+
 
 /** The reports reducer is complete and does not need to be modified */
 const reportsReducer = (state = {}, action) => {
